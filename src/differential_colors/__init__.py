@@ -38,12 +38,10 @@ BRAND_COLORS: dict[str, str] = {
     "White": "#FFFFFF",
     "Grey": "#727272",
     "Almost Black": "#1E1E1E",
-
     # Accent trio
     "Orange": "#FA693A",
     "Red": "#891D1A",
     "Lime": "#70F676",
-
     # Extended palette
     "Blush": "#EAD6CF",
     "Cream": "#EADFCD",
@@ -111,8 +109,7 @@ def palette(names: Iterable[str] | None = None) -> list[str]:
         try:
             hexes.append(BRAND_COLORS[name])
         except KeyError as exc:
-            raise KeyError(f"Unknown color name '{name}'. "
-                           f"Valid names: {sorted(BRAND_COLORS)}") from exc
+            raise KeyError(f"Unknown color name '{name}'. Valid names: {sorted(BRAND_COLORS)}") from exc
     return hexes
 
 
@@ -160,8 +157,7 @@ def cmap(
     sns.kdeplot(..., fill=True, cmap=cmap)
     """
     if base not in BRAND_COLORS:
-        raise KeyError(f"Unknown base color '{base}'. "
-                       f"Valid names: {sorted(BRAND_COLORS)}")
+        raise KeyError(f"Unknown base color '{base}'. Valid names: {sorted(BRAND_COLORS)}")
 
     base_hex = BRAND_COLORS[base]
     white = "#FFFFFF"
@@ -184,6 +180,7 @@ def cmap(
 
     return LinearSegmentedColormap.from_list(name, colors, N=n)
 
+
 def register_mpl_colormaps(variants=("light", "dark", "full")):
     """
     Register a family of colormaps with matplotlib.
@@ -203,14 +200,16 @@ def register_mpl_colormaps(variants=("light", "dark", "full")):
     try:
         # New Matplotlib ≥3.7 API
         from matplotlib import colormaps as cmaps
+
         use_new = True
     except ImportError:
         # Fallback for older Matplotlib
         import matplotlib.cm as cm
+
         use_new = False
 
     for name in BRAND_COLORS:
-        if name == "White":      # skip problematic base
+        if name == "White":  # skip problematic base
             continue
 
         for v in variants:
@@ -273,9 +272,11 @@ def tooltip() -> None:
 # Tiny internal helper (not currently used but handy for extension)
 # ---------------------------------------------------------------------
 
+
 @dataclass(frozen=True)
 class Color:
     """Convenience wrapper if you want to extend the library later."""
+
     name: str
 
     @property
@@ -285,8 +286,11 @@ class Color:
     @property
     def rgb(self):
         return to_rgb(self.hex)
+
+
 def main() -> None:
     print("Hello from differential-colors!")
+
 
 __all__ = [
     "BRAND_COLORS",
