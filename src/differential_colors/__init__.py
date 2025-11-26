@@ -187,8 +187,7 @@ def cmap(base: str,
 
     return LinearSegmentedColormap.from_list(name, colors, N=n)
 
-
-def register_mpl_colormaps(variants: Iterable[str] = ("light", "dark", "full")):
+def register_mpl_colormaps(variants=("light", "dark", "full")):
     """
     Register a family of colormaps with matplotlib.
 
@@ -202,13 +201,29 @@ def register_mpl_colormaps(variants: Iterable[str] = ("light", "dark", "full")):
 
     in many matplotlib / seaborn functions.
     """
-    import matplotlib.cm as cm
+    import matplotlib
+
+    try:
+        # New Matplotlib ≥3.7 API
+        from matplotlib import colormaps as cmaps
+        use_new = True
+    except ImportError:
+        # Fallback for older Matplotlib
+        import matplotlib.cm as cm
+        use_new = False
 
     for name in BRAND_COLORS:
-        if name == "White":  # avoid degenerate full white maps
+        if name == "White":      # skip problematic base
             continue
+
         for v in variants:
-            cm.register_cmap(cmap=cmap(name, variant=v))
+            cmap_obj = cmap(name, variant=v)
+            cmap_name = f"diff_{name}_{v}"
+
+            if use_new:
+                cmaps.register(cmap_obj, name=cmap_name)
+            else:
+                cm.register_cmap(name=cmap_name, cmap=cmap_obj)
 
 
 # ---------------------------------------------------------------------
