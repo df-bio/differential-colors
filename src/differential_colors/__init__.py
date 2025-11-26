@@ -26,7 +26,6 @@ Tip: call diff.tooltip() in a notebook to see all color names and hex codes.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Iterable, List, Optional
 
 from matplotlib.colors import LinearSegmentedColormap, ListedColormap, to_rgb
 
@@ -34,7 +33,7 @@ from matplotlib.colors import LinearSegmentedColormap, ListedColormap, to_rgb
 # Raw brand colors
 # ---------------------------------------------------------------------
 
-BRAND_COLORS: Dict[str, str] = {
+BRAND_COLORS: dict[str, str] = {
     # Core neutrals
     "White": "#FFFFFF",
     "Grey": "#727272",
@@ -62,7 +61,7 @@ BRAND_COLORS: Dict[str, str] = {
 }
 
 # Default categorical ordering (nice mix of contrast & brand feel)
-DEFAULT_ORDER: List[str] = [
+DEFAULT_ORDER: list[str] = [
     "Orange",
     "Forest Green",
     "Blue",
@@ -89,7 +88,8 @@ DEFAULT_ORDER: List[str] = [
 # Public API
 # ---------------------------------------------------------------------
 
-def palette(names: Optional[Iterable[str]] = None) -> List[str]:
+
+def palette(names: Iterable[str] | None = None) -> list[str]:
     """
     Return a categorical palette (list of hex strings).
 
@@ -116,8 +116,7 @@ def palette(names: Optional[Iterable[str]] = None) -> List[str]:
     return hexes
 
 
-def listed_cmap(names: Optional[Iterable[str]] = None,
-                name: str = "differential_listed") -> ListedColormap:
+def listed_cmap(names: Iterable[str] | None = None, name: str = "differential_listed") -> ListedColormap:
     """
     Discrete colormap from multiple brand colors.
 
@@ -131,11 +130,9 @@ def listed_cmap(names: Optional[Iterable[str]] = None,
     return ListedColormap(palette(names), name=name)
 
 
-def cmap(base: str,
-         variant: str = "full",
-         n: int = 256,
-         name: Optional[str] = None,
-         reverse: bool = False) -> LinearSegmentedColormap:
+def cmap(
+    base: str, variant: str = "full", n: int = 256, name: str | None = None, reverse: bool = False
+) -> LinearSegmentedColormap:
     """
     Continuous colormap based on a single brand color.
 
