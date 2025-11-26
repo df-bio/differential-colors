@@ -19,13 +19,13 @@ Designed for internal research projects, this package ensures consistent visuali
 You can install directly from GitHub using **uv** (recommended):
 
 ```bash
-uv add "git+https://github.com/df-bio/differential-colors.git"
+uv add "differential-colors @ git+ssh://git@github.com/df-bio/differential-colors.git"
 ```
 
 or with **pip**:
 
 ```bash
-pip install "git+https://github.com/df-bio/differential-colors.git"
+pip install "differential-colors @ git+ssh://git@github.com/df-bio/differential-colors.git"
 ```
 
 ---
